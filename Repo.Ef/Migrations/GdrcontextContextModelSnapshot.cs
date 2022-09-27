@@ -258,21 +258,20 @@ namespace Repo.Ef.Migrations
 
             modelBuilder.Entity("Repo.Ef.DropUser", b =>
                 {
-                    b.Property<int>("DropUsersId")
+                    b.Property<Guid>("DropUsersId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("DropUsersID")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("DropUsersID");
 
-                    b.Property<int>("ItemtId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ItemtId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Level")
                         .HasColumnType("int")
                         .HasColumnName("level");
 
-                    b.Property<int>("PgId")
-                        .HasColumnType("int")
+                    b.Property<Guid>("PgId")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("PgID");
 
                     b.HasKey("DropUsersId");
@@ -286,11 +285,10 @@ namespace Repo.Ef.Migrations
 
             modelBuilder.Entity("Repo.Ef.Item", b =>
                 {
-                    b.Property<int>("ItemsId")
+                    b.Property<Guid>("ItemsId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("ItemsID")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("ItemsID");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -308,11 +306,10 @@ namespace Repo.Ef.Migrations
 
             modelBuilder.Entity("Repo.Ef.Move", b =>
                 {
-                    b.Property<int>("MovesId")
+                    b.Property<Guid>("MovesId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("MovesID")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("MovesID");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -322,8 +319,8 @@ namespace Repo.Ef.Migrations
                     b.Property<string>("Image")
                         .HasColumnType("text");
 
-                    b.Property<int>("PgId")
-                        .HasColumnType("int")
+                    b.Property<Guid>("PgId")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("PgID");
 
                     b.Property<int>("TypologyId")
@@ -341,14 +338,13 @@ namespace Repo.Ef.Migrations
 
             modelBuilder.Entity("Repo.Ef.Pg", b =>
                 {
-                    b.Property<int>("PgId")
+                    b.Property<Guid>("PgId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("PgID")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("PgID");
 
-                    b.Property<int>("AccountId")
-                        .HasColumnType("int")
+                    b.Property<string>("AccountId")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("AccountID");
 
                     b.Property<string>("ApplicationUserId")
@@ -367,11 +363,10 @@ namespace Repo.Ef.Migrations
 
             modelBuilder.Entity("Repo.Ef.Statistic", b =>
                 {
-                    b.Property<int>("StatisticsId")
+                    b.Property<Guid>("StatisticsId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("StatisticsID")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("StatisticsID");
 
                     b.Property<int>("Ctk")
                         .HasColumnType("int");
@@ -385,8 +380,8 @@ namespace Repo.Ef.Migrations
                     b.Property<int>("Pd")
                         .HasColumnType("int");
 
-                    b.Property<int>("PgId")
-                        .HasColumnType("int")
+                    b.Property<Guid>("PgId")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("PgID");
 
                     b.Property<int>("Pvd")
@@ -402,6 +397,35 @@ namespace Repo.Ef.Migrations
                     b.HasIndex("PgId");
 
                     b.ToTable("Statistics");
+                });
+
+            modelBuilder.Entity("Repo.Ef.StatisticBase", b =>
+                {
+                    b.Property<Guid>("StatisticBaseId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("StatisticsID");
+
+                    b.Property<int>("Ctk")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Pa")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Pd")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Pvd")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Typology")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("StatisticBaseId");
+
+                    b.ToTable("StatisticBases");
                 });
 
             modelBuilder.Entity("Repo.Ef.Typology", b =>

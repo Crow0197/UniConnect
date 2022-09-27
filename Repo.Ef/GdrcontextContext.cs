@@ -32,6 +32,7 @@ namespace Repo.Ef
         public virtual DbSet<Statistic> Statistics { get; set; }
         public virtual DbSet<Typology> Typologies { get; set; }
 
+        public virtual DbSet<StatisticBase> StatisticBases { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

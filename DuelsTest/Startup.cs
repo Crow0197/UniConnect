@@ -14,13 +14,13 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Repo.Ef;
 using AutoMapper;
-using DuelsTest.BLL;
+using RememberMe.BLL;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Identity;
 
-namespace DuelsTest
+namespace RememberMe
 {
     public class Startup
     {
@@ -100,8 +100,22 @@ namespace DuelsTest
                     }
                 };
 
-                setup.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
+                services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
 
+                    //builder.WithOrigins("10.1.0.27", "10.1.0.41", "10.1.0.18", "10.1.0.28", "10.1.0.27")
+                    //        .AllowAnyMethod()
+                    //        .AllowAnyHeader();
+
+                }));
+                services.AddCors();
+
+
+                setup.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
+                    services.AddCors();
                 setup.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         { jwtSecurityScheme, Array.Empty<string>() }
@@ -115,13 +129,15 @@ namespace DuelsTest
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, RoleManager<IdentityRole> roleManager)
         {
 
-
+            app.UseCors(
+       options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
+   );
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "DuelsTest v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "RememberMe v1"));
             }
 
             app.UseHttpsRedirection();

@@ -20,12 +20,12 @@ namespace Repo.Ef
 
         [Key]
         [Column("PgID")]
-        public int PgId { get; set; }
+        public Guid PgId { get; set; }
         [Required]
         [Column(TypeName = "text")]
         public string Name { get; set; }
         [Column("AccountID")]
-        public int AccountId { get; set; }
+        public string AccountId { get; set; }
 
 
         public virtual ApplicationUser ApplicationUser { get; set; }

@@ -8,14 +8,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Repo.Ef
 {
-    public partial class Statistic
+    public partial class StatisticBase
     {
         [Key]
         [Column("StatisticsID")]
-        public Guid StatisticsId { get; set; }
-        public int OrderNumber { get; set; }
-        [Column("PgID")]
-        public Guid PgId { get; set; }
+        public Guid StatisticBaseId { get; set; }
+
         public int Pvd { get; set; }
         public int Pa { get; set; }
         public int Pd { get; set; }
@@ -24,8 +22,5 @@ namespace Repo.Ef
         [StringLength(100)]
         public string Typology { get; set; }
 
-        [ForeignKey(nameof(PgId))]
-        [InverseProperty("Statistics")]
-        public virtual Pg Pg { get; set; }
     }
 }

@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32126.315
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DuelsTest", "DuelsTest\DuelsTest.csproj", "{FA3BFA4B-7C6A-4D60-AEE7-E7A5D5D53547}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RememberMe", "DuelsTest\RememberMe.csproj", "{FA3BFA4B-7C6A-4D60-AEE7-E7A5D5D53547}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repo.Ef", "Repo.Ef\Repo.Ef.csproj", "{731CEFA5-9F5A-4F00-860B-80463A241FF0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repo.Ef", "Repo.Ef\Repo.Ef.csproj", "{731CEFA5-9F5A-4F00-860B-80463A241FF0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{288492A6-BEA9-433A-BFEA-480BF897D7D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{288492A6-BEA9-433A-BFEA-480BF897D7D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

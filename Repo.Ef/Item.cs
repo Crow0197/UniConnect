@@ -17,7 +17,7 @@ namespace Repo.Ef
 
         [Key]
         [Column("ItemsID")]
-        public int ItemsId { get; set; }
+        public Guid ItemsId { get; set; }
         [Required]
         [StringLength(250)]
         public string Name { get; set; }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 
-namespace DuelsTest.BLL
+namespace RememberMe.BLL
 {
     public class Password
     {

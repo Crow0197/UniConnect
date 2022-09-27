@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DuelsTest.Request
+namespace RememberMe.Request
 {    public class AccountRequest
     {
    public string UserName { get; set; }

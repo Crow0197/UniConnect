@@ -12,16 +12,19 @@ namespace Repo.Ef
     {
         [Key]
         [Column("MovesID")]
-        public int MovesId { get; set; }
+        public Guid MovesId { get; set; }
         [Required]
         [StringLength(250)]
         public string Description { get; set; }
+
+
+        public string Name { get; set; }
         [Column(TypeName = "text")]
         public string Image { get; set; }
         [Column("TypologyID")]
         public int TypologyId { get; set; }
         [Column("PgID")]
-        public int PgId { get; set; }
+        public Guid PgId { get; set; }
 
         [ForeignKey(nameof(PgId))]
         [InverseProperty("Moves")]

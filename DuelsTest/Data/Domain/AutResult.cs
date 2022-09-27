@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DuelsTest.Domain
+namespace RememberMe.Domain
 {
     public class AutResult
     {

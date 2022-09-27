@@ -12,10 +12,10 @@ namespace Repo.Ef
     {
         [Key]
         [Column("DropUsersID")]
-        public int DropUsersId { get; set; }
+        public Guid DropUsersId { get; set; }
         [Column("PgID")]
-        public int PgId { get; set; }
-        public int ItemtId { get; set; }
+        public Guid PgId { get; set; }
+        public Guid ItemtId { get; set; }
         [Column("level")]
         public int Level { get; set; }
 

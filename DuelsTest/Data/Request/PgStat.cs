@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RememberMe.BLL
+namespace RememberMe.Data.Request
 {
-    public class JwtConfig
+    public class PgStat
     {
-        public string Secret { get; set; }
     }
 }

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DuelsTest.Request
+namespace RememberMe.Request
 {
     public class UserRegistrationRequestDto
     {

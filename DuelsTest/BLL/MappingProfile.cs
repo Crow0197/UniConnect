@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using DuelsTest.Request;
+using RememberMe.Data.Request;
+using RememberMe.Request;
 using Microsoft.AspNetCore.Identity;
 using Repo.Ef;
 using System;
@@ -7,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DuelsTest
+namespace RememberMe
 {
     public class MappingProfile : Profile
     {
@@ -17,6 +18,13 @@ namespace DuelsTest
             CreateMap<AccountRequest, ApplicationUser>();
             CreateMap<ApplicationUser, AccountRequest>();
             CreateMap<ApplicationUser, IdentityUser>();
+            CreateMap<IdentityUser, ApplicationUser>();
+            CreateMap<Pg, PgRequest>();
+            CreateMap< PgRequest,Pg>();
+            CreateMap<Statistic, StatisticBase>();
+            CreateMap<StatisticBase, Statistic>();
+            CreateMap<Move, MoveSet>();
+            CreateMap<MoveSet, Move>();
             CreateMap<IdentityUser, ApplicationUser>();
         }
     }

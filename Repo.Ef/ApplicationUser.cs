@@ -12,5 +12,7 @@ namespace Repo.Ef
 
         public virtual ICollection<Pg> Pgs { get; set; }
 
+        public string Avatar  { get; set; }
+
     }
 }

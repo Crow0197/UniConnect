@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using DuelsTest.BLL;
-using DuelsTest.Request;
-using DuelsTest.Response;
+using RememberMe.BLL;
+using RememberMe.Request;
+using RememberMe.Response;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +16,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DuelsTest.Controllers
+namespace RememberMe.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -49,7 +49,7 @@ namespace DuelsTest.Controllers
                 if (existingUser == null)
                 {
                     // We dont want to give to much information on why the request has failed for security reasons
-                    return BadRequest(new RegistrationResponse()
+                    return Ok(new RegistrationResponse()
                     {
                         Result = false,
                         Errors = new List<string>(){
@@ -60,21 +60,23 @@ namespace DuelsTest.Controllers
 
                 // Now we need to check if the user has inputed the right password
                 var isCorrect = await _userManager.CheckPasswordAsync(existingUser, user.Password);
+                var roles = await _userManager.GetRolesAsync(existingUser);
 
                 if (isCorrect)
                 {
-                    var jwtToken = GenerateJwtToken(existingUser);
+                    var jwtToken = GenerateJwtToken(existingUser, roles.ToList());
 
-                    return Ok(new RegistrationResponse()
+                    return Ok(new LoginResponse()
                     {
                         Result = true,
-                        Token = jwtToken
+                        Token = jwtToken, 
+                        User = existingUser
                     });
                 }
                 else
                 {
                     // We dont want to give to much information on why the request has failed for security reasons
-                    return BadRequest(new RegistrationResponse()
+                    return Ok(new LoginResponse()
                     {
                         Result = false,
                         Errors = new List<string>(){
@@ -122,11 +124,8 @@ namespace DuelsTest.Controllers
 
                     _userManager.AddToRoleAsync(newUser, "User").GetAwaiter().GetResult();
 
-                    var jwtToken = GenerateJwtToken(newUser);
-
-
-
-                  
+                    List<string> roleNew = new List<string>() { "User" };              
+                    var jwtToken = GenerateJwtToken(newUser, roleNew);               
 
 
 
@@ -155,14 +154,11 @@ namespace DuelsTest.Controllers
             });
         }
 
-        private string GenerateJwtToken(IdentityUser user)
+        private string GenerateJwtToken(IdentityUser user,List<string> roles)
         {
             var applicationUser = _mapper.Map<ApplicationUser>(user);
-
-            var tempRole = _userManager.GetRolesAsync(applicationUser).GetAwaiter().GetResult().FirstOrDefault();
-
-
-            
+            var tempRole = _userManager.GetRolesAsync(applicationUser).GetAwaiter().GetResult();
+                        
 
             // Now its ime to define the jwt token which will be responsible of creating our tokens
             var jwtTokenHandler = new JwtSecurityTokenHandler();
@@ -183,8 +179,7 @@ namespace DuelsTest.Controllers
                 new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 // the JTI is used for our refresh token which we will be convering in the next video
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.Role,tempRole)
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())            
             }),
                 // the life span of the token needs to be shorter and utilise refresh token to keep the user signedin
                 // but since this is a demo app we can extend it to fit our current need
@@ -192,12 +187,14 @@ namespace DuelsTest.Controllers
                 // here we are adding the encryption alogorithim information which will be used to decrypt our token
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
             };
+            foreach (var item in roles)
+            {
+                tokenDescriptor.Subject.AddClaim(new Claim(ClaimTypes.Role, item));
+            }        
 
             var token = jwtTokenHandler.CreateToken(tokenDescriptor);
-
             var jwtToken = jwtTokenHandler.WriteToken(token);
-
-            return jwtToken;
+                        return jwtToken;
         }
 
 

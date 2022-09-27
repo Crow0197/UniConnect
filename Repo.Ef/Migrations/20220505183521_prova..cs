@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Repo.Ef.Migrations
 {
-    public partial class InitialCreate2 : Migration
+    public partial class prova : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -70,14 +70,29 @@ namespace Repo.Ef.Migrations
                 name: "Items",
                 columns: table => new
                 {
-                    ItemsID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ItemsID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Items", x => x.ItemsID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StatisticBases",
+                columns: table => new
+                {
+                    StatisticsID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Pvd = table.Column<int>(type: "int", nullable: false),
+                    Pa = table.Column<int>(type: "int", nullable: false),
+                    Pd = table.Column<int>(type: "int", nullable: false),
+                    Ctk = table.Column<int>(type: "int", nullable: false),
+                    Typology = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StatisticBases", x => x.StatisticsID);
                 });
 
             migrationBuilder.CreateTable(
@@ -204,10 +219,9 @@ namespace Repo.Ef.Migrations
                 name: "Pg",
                 columns: table => new
                 {
-                    PgID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PgID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    AccountID = table.Column<int>(type: "int", nullable: false),
+                    AccountID = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
@@ -225,10 +239,9 @@ namespace Repo.Ef.Migrations
                 name: "DropUsers",
                 columns: table => new
                 {
-                    DropUsersID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PgID = table.Column<int>(type: "int", nullable: false),
-                    ItemtId = table.Column<int>(type: "int", nullable: false),
+                    DropUsersID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PgID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ItemtId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     level = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -252,12 +265,11 @@ namespace Repo.Ef.Migrations
                 name: "Moves",
                 columns: table => new
                 {
-                    MovesID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MovesID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     Image = table.Column<string>(type: "text", nullable: true),
                     TypologyID = table.Column<int>(type: "int", nullable: false),
-                    PgID = table.Column<int>(type: "int", nullable: false)
+                    PgID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -280,10 +292,9 @@ namespace Repo.Ef.Migrations
                 name: "Statistics",
                 columns: table => new
                 {
-                    StatisticsID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StatisticsID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     OrderNumber = table.Column<int>(type: "int", nullable: false),
-                    PgID = table.Column<int>(type: "int", nullable: false),
+                    PgID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Pvd = table.Column<int>(type: "int", nullable: false),
                     Pa = table.Column<int>(type: "int", nullable: false),
                     Pd = table.Column<int>(type: "int", nullable: false),
@@ -396,6 +407,9 @@ namespace Repo.Ef.Migrations
 
             migrationBuilder.DropTable(
                 name: "Moves");
+
+            migrationBuilder.DropTable(
+                name: "StatisticBases");
 
             migrationBuilder.DropTable(
                 name: "Statistics");
