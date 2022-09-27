@@ -60,15 +60,10 @@ namespace RememberMe.Controllers
         {
             //Created a user
             // assign an existing role to the newly created user
-
             //List<string> roles = roleManager.Roles.Select(x => x.Name).ToList();
-
             var user = await _userManager.FindByEmailAsync(_email);
 
-
-
-            await  _userManager.AddToRoleAsync(user, "Admin");
-
+            await _userManager.AddToRoleAsync(user, "Admin");
             return RedirectToAction("Index");
         }
 
