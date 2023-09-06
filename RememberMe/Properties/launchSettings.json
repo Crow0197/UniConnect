@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "RememberMe": {
+    "UniConnect": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "launchBrowser": true,

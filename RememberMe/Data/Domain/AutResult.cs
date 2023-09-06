@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RememberMe.Domain
+namespace UniConnect.Domain
 {
     public class AutResult
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 
-namespace RememberMe.BLL
+namespace UniConnect.BLL
 {
     public class Password
     {

@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RememberMe.Controllers
+namespace UniConnect.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

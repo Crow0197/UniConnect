@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using RememberMe.Data.Request;
-using RememberMe.Request;
+using UniConnect.Data.Request;
+using UniConnect.Request;
 using Microsoft.AspNetCore.Identity;
 using Repo.Ef;
 using System;
@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RememberMe
+namespace UniConnect
 {
     public class MappingProfile : Profile
     {

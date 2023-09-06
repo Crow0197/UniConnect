@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using RememberMe.BLL;
-using RememberMe.Request;
-using RememberMe.Response;
+using UniConnect.BLL;
+using UniConnect.Request;
+using UniConnect.Response;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +16,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RememberMe.Controllers
+namespace UniConnect.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -114,7 +114,7 @@ namespace RememberMe.Controllers
                         Errors = new List<string>(){
                                             "Email already exist"
                                         }
-                    });
+                    }); 
                 }
 
                 var newUser = new ApplicationUser() { Email = user.Email, UserName = user.Email };

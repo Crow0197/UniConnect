@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RememberMe.Request
+namespace UniConnect.Request
 {    public class AccountRequest
     {
    public string UserName { get; set; }

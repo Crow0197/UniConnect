@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using RememberMe.Data.Request;
+using UniConnect.Data.Request;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RememberMe.Controllers
+namespace UniConnect.Controllers
 {
     [ApiController]
     [Route("[controller]")]

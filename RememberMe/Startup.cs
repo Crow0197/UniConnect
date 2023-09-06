@@ -14,13 +14,13 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Repo.Ef;
 using AutoMapper;
-using RememberMe.BLL;
+using UniConnect.BLL;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Identity;
 
-namespace RememberMe
+namespace UniConnect
 {
     public class Startup
     {
@@ -137,7 +137,7 @@ namespace RememberMe
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "RememberMe v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "UniConnect v1"));
             }
 
             app.UseHttpsRedirection();
