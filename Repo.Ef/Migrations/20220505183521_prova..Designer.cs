@@ -9,7 +9,7 @@ using Repo.Ef;
 
 namespace Repo.Ef.Migrations
 {
-    [DbContext(typeof(GdrcontextContext))]
+    [DbContext(typeof(DbContext))]
     [Migration("20220505183521_prova.")]
     partial class prova
     {

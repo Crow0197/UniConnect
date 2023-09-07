@@ -34,8 +34,9 @@ namespace UniConnect
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<GdrcontextContext>(options =>
-         options.UseSqlServer(Configuration.GetConnectionString("BloggingDatabase")));
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddDbContext<Repo.Ef.DbContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("BloggingDatabase")));
 
 
             var mapperConfig = new MapperConfiguration(mc =>
@@ -47,35 +48,30 @@ namespace UniConnect
             services.AddSingleton(mapper);
 
 
-            services.Configure<JwtConfig>(Configuration.GetSection("JwtConfig"));
-
-
-
+            // Aggiungi l'autenticazione JWT
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-        .AddJwtBearer(jwt =>
-        {
-            var key = Encoding.ASCII.GetBytes(Configuration["JwtConfig:Secret"]);
-
-            jwt.SaveToken = true;
-            jwt.TokenValidationParameters = new TokenValidationParameters
+            }).AddJwtBearer(options =>
             {
-                ValidateIssuerSigningKey = true, // this will validate the 3rd part of the jwt token using the secret that we added in the appsettings and verify we have generated the jwt token
-                IssuerSigningKey = new SymmetricSecurityKey(key), // Add the secret key to our Jwt encryption
-                ValidateIssuer = false,
-                ValidateAudience = false,
-                RequireExpirationTime = false,
-                ValidateLifetime = true
-            };
-        });
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,  // Imposta su 'true' se vuoi convalidare l'emittente (issuer) del token
+                    ValidateAudience = true, // Imposta su 'true' se vuoi convalidare il pubblico (audience) del token
+                    ValidateLifetime = true, // Imposta su 'true' se vuoi convalidare la scadenza del token
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = "il_tuo_emittente",
+                    ValidAudience = "il_tuo_pubblico",
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ijurkbdlhmklqacwqzdxmkkhvqowlyqa"))
+                };
+            });
+
+
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<GdrcontextContext>();
+                .AddEntityFrameworkStores<Repo.Ef.DbContext>();
 
 
 
@@ -115,7 +111,7 @@ namespace UniConnect
 
 
                 setup.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
-                    services.AddCors();
+                services.AddCors();
                 setup.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         { jwtSecurityScheme, Array.Empty<string>() }
@@ -144,6 +140,7 @@ namespace UniConnect
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

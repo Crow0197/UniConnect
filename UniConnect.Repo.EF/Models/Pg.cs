@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Repo.Ef
+namespace UniConnect.Repo.EF.Models
 {
     public partial class Pg
     {
@@ -11,6 +11,7 @@ namespace Repo.Ef
         public string Name { get; set; }
         public string AccountId { get; set; }
         public string ApplicationUserId { get; set; }
-      
+
+        public virtual AspNetUsers ApplicationUser { get; set; }
     }
 }

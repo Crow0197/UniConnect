@@ -20,11 +20,7 @@ namespace UniConnect
             CreateMap<ApplicationUser, IdentityUser>();
             CreateMap<IdentityUser, ApplicationUser>();
             CreateMap<Pg, PgRequest>();
-            CreateMap< PgRequest,Pg>();
-            CreateMap<Statistic, StatisticBase>();
-            CreateMap<StatisticBase, Statistic>();
-            CreateMap<Move, MoveSet>();
-            CreateMap<MoveSet, Move>();
+            CreateMap<PgRequest,Pg>();           
             CreateMap<IdentityUser, ApplicationUser>();
         }
     }

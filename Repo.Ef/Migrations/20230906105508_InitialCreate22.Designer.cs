@@ -10,8 +10,8 @@ using Repo.Ef;
 namespace Repo.Ef.Migrations
 {
     [DbContext(typeof(DbContext))]
-    [Migration("20230906090043_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230906105508_InitialCreate22")]
+    partial class InitialCreate22
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -224,238 +224,26 @@ namespace Repo.Ef.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Repo.Ef.Boss", b =>
-                {
-                    b.Property<int>("BossId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("BossID")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Ctk")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CtkPost")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Pa")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PaPost")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Pd")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PdPost")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PvPost")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Pvd")
-                        .HasColumnType("int");
-
-                    b.HasKey("BossId");
-
-                    b.ToTable("Bosses");
-                });
-
-            modelBuilder.Entity("Repo.Ef.DropUser", b =>
-                {
-                    b.Property<Guid>("DropUsersId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("DropUsersID");
-
-                    b.Property<Guid>("ItemtId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Level")
-                        .HasColumnType("int")
-                        .HasColumnName("level");
-
-                    b.Property<Guid>("PgId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("PgID");
-
-                    b.HasKey("DropUsersId");
-
-                    b.HasIndex("ItemtId");
-
-                    b.HasIndex("PgId");
-
-                    b.ToTable("DropUsers");
-                });
-
-            modelBuilder.Entity("Repo.Ef.Item", b =>
-                {
-                    b.Property<Guid>("ItemsId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("ItemsID");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.HasKey("ItemsId");
-
-                    b.ToTable("Items");
-                });
-
-            modelBuilder.Entity("Repo.Ef.Move", b =>
-                {
-                    b.Property<Guid>("MovesId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("MovesID");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<string>("Image")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("PgId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("PgID");
-
-                    b.Property<int>("TypologyId")
-                        .HasColumnType("int")
-                        .HasColumnName("TypologyID");
-
-                    b.HasKey("MovesId");
-
-                    b.HasIndex("PgId");
-
-                    b.HasIndex("TypologyId");
-
-                    b.ToTable("Moves");
-                });
-
             modelBuilder.Entity("Repo.Ef.Pg", b =>
                 {
                     b.Property<Guid>("PgId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("PgID");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("AccountId")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("AccountID");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PgId");
 
                     b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Pg");
-                });
-
-            modelBuilder.Entity("Repo.Ef.Statistic", b =>
-                {
-                    b.Property<Guid>("StatisticsId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("StatisticsID");
-
-                    b.Property<int>("Ctk")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OrderNumber")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Pa")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Pd")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("PgId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("PgID");
-
-                    b.Property<int>("Pvd")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Typology")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("StatisticsId");
-
-                    b.HasIndex("PgId");
-
-                    b.ToTable("Statistics");
-                });
-
-            modelBuilder.Entity("Repo.Ef.StatisticBase", b =>
-                {
-                    b.Property<Guid>("StatisticBaseId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("StatisticsID");
-
-                    b.Property<int>("Ctk")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Pa")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Pd")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Pvd")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Typology")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("StatisticBaseId");
-
-                    b.ToTable("StatisticBases");
-                });
-
-            modelBuilder.Entity("Repo.Ef.Typology", b =>
-                {
-                    b.Property<int>("TypologyId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("TypologyID")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("TypologyId");
-
-                    b.ToTable("Typology");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -509,86 +297,16 @@ namespace Repo.Ef.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Repo.Ef.DropUser", b =>
-                {
-                    b.HasOne("Repo.Ef.Item", "Itemt")
-                        .WithMany("DropUsers")
-                        .HasForeignKey("ItemtId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Repo.Ef.Pg", "Pg")
-                        .WithMany("DropUsers")
-                        .HasForeignKey("PgId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Itemt");
-
-                    b.Navigation("Pg");
-                });
-
-            modelBuilder.Entity("Repo.Ef.Move", b =>
-                {
-                    b.HasOne("Repo.Ef.Pg", "Pg")
-                        .WithMany("Moves")
-                        .HasForeignKey("PgId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Repo.Ef.Typology", "Typology")
-                        .WithMany("Moves")
-                        .HasForeignKey("TypologyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Pg");
-
-                    b.Navigation("Typology");
-                });
-
             modelBuilder.Entity("Repo.Ef.Pg", b =>
                 {
-                    b.HasOne("Repo.Ef.ApplicationUser", "ApplicationUser")
+                    b.HasOne("Repo.Ef.ApplicationUser", null)
                         .WithMany("Pgs")
                         .HasForeignKey("ApplicationUserId");
-
-                    b.Navigation("ApplicationUser");
-                });
-
-            modelBuilder.Entity("Repo.Ef.Statistic", b =>
-                {
-                    b.HasOne("Repo.Ef.Pg", "Pg")
-                        .WithMany("Statistics")
-                        .HasForeignKey("PgId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Pg");
                 });
 
             modelBuilder.Entity("Repo.Ef.ApplicationUser", b =>
                 {
                     b.Navigation("Pgs");
-                });
-
-            modelBuilder.Entity("Repo.Ef.Item", b =>
-                {
-                    b.Navigation("DropUsers");
-                });
-
-            modelBuilder.Entity("Repo.Ef.Pg", b =>
-                {
-                    b.Navigation("DropUsers");
-
-                    b.Navigation("Moves");
-
-                    b.Navigation("Statistics");
-                });
-
-            modelBuilder.Entity("Repo.Ef.Typology", b =>
-                {
-                    b.Navigation("Moves");
                 });
 #pragma warning restore 612, 618
         }
