@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repo.Ef;
 
 namespace Repo.Ef.Migrations
 {
     [DbContext(typeof(DbContext))]
-    partial class GdrcontextContextModelSnapshot : ModelSnapshot
+    [Migration("20230908162937_InitialCreatess")]
+    partial class InitialCreatess
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,19 +21,19 @@ namespace Repo.Ef.Migrations
                 .HasAnnotation("ProductVersion", "5.0.16")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ApplicationUserGruppo", b =>
+            modelBuilder.Entity("ApplicationUserEvento", b =>
                 {
-                    b.Property<int>("GroupId")
+                    b.Property<int>("EventoEventId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("GroupId", "UserId");
+                    b.HasKey("EventoEventId", "UserId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ApplicationUserGruppo");
+                    b.ToTable("ApplicationUserEvento");
                 });
 
             modelBuilder.Entity("EventoGruppo", b =>
@@ -195,9 +197,6 @@ namespace Repo.Ef.Migrations
                     b.Property<string>("Avatar")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CommentoCommentId")
-                        .HasColumnType("int");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -208,9 +207,6 @@ namespace Repo.Ef.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<int?>("EventoEventId")
-                        .HasColumnType("int");
 
                     b.Property<int?>("FileStorageFileId")
                         .HasColumnType("int");
@@ -253,10 +249,6 @@ namespace Repo.Ef.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CommentoCommentId");
-
-                    b.HasIndex("EventoEventId");
-
                     b.HasIndex("FileStorageFileId");
 
                     b.HasIndex("NormalizedEmail")
@@ -270,6 +262,24 @@ namespace Repo.Ef.Migrations
                     b.HasIndex("PostId");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "92750d5b-5982-4530-bb18-0ef8c5e74689",
+                            Email = "admin@admin.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@ADMIN.COM",
+                            NormalizedUserName = "ADMIN@ADMIN",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBdO0rfev+OfMcWsYz2AmEhHdXuyzf71Wqtz2PIPL/KLZUkcCK70VYsevMMb6Z3WQg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@admin"
+                        });
                 });
 
             modelBuilder.Entity("Repo.Ef.Models.Commento", b =>
@@ -285,15 +295,22 @@ namespace Repo.Ef.Migrations
                     b.Property<int?>("FileId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("PostId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("Timestamp")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("CommentId");
 
                     b.HasIndex("FileId");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Commento");
                 });
@@ -304,6 +321,9 @@ namespace Repo.Ef.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("Date")
                         .HasColumnType("datetime2");
@@ -397,6 +417,21 @@ namespace Repo.Ef.Migrations
                     b.ToTable("Post");
                 });
 
+            modelBuilder.Entity("Repo.Ef.Models.UtenteGruppo", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("GroupId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "GroupId");
+
+                    b.HasIndex("GroupId");
+
+                    b.ToTable("UtenteGruppo");
+                });
+
             modelBuilder.Entity("Repo.Ef.Pg", b =>
                 {
                     b.Property<Guid>("PgId")
@@ -417,11 +452,11 @@ namespace Repo.Ef.Migrations
                     b.ToTable("Pg");
                 });
 
-            modelBuilder.Entity("ApplicationUserGruppo", b =>
+            modelBuilder.Entity("ApplicationUserEvento", b =>
                 {
-                    b.HasOne("Repo.Ef.Models.Gruppo", null)
+                    b.HasOne("Repo.Ef.Models.Evento", null)
                         .WithMany()
-                        .HasForeignKey("GroupId")
+                        .HasForeignKey("EventoEventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -500,14 +535,6 @@ namespace Repo.Ef.Migrations
 
             modelBuilder.Entity("Repo.Ef.ApplicationUser", b =>
                 {
-                    b.HasOne("Repo.Ef.Models.Commento", null)
-                        .WithMany("User")
-                        .HasForeignKey("CommentoCommentId");
-
-                    b.HasOne("Repo.Ef.Models.Evento", null)
-                        .WithMany("User")
-                        .HasForeignKey("EventoEventId");
-
                     b.HasOne("Repo.Ef.Models.FileStorage", null)
                         .WithMany("User")
                         .HasForeignKey("FileStorageFileId");
@@ -523,7 +550,19 @@ namespace Repo.Ef.Migrations
                         .WithMany("Commento")
                         .HasForeignKey("FileId");
 
+                    b.HasOne("Repo.Ef.Models.Post", "Post")
+                        .WithMany("Commento")
+                        .HasForeignKey("PostId");
+
+                    b.HasOne("Repo.Ef.ApplicationUser", "User")
+                        .WithMany("Commento")
+                        .HasForeignKey("UserId");
+
                     b.Navigation("File");
+
+                    b.Navigation("Post");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Repo.Ef.Models.Post", b =>
@@ -547,14 +586,30 @@ namespace Repo.Ef.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Repo.Ef.Models.Commento", b =>
+            modelBuilder.Entity("Repo.Ef.Models.UtenteGruppo", b =>
                 {
-                    b.Navigation("User");
+                    b.HasOne("Repo.Ef.Models.Gruppo", "Gruppo")
+                        .WithMany("UtenteGruppi")
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Repo.Ef.ApplicationUser", "ApplicationUser")
+                        .WithMany("UtenteGruppi")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Gruppo");
                 });
 
-            modelBuilder.Entity("Repo.Ef.Models.Evento", b =>
+            modelBuilder.Entity("Repo.Ef.ApplicationUser", b =>
                 {
-                    b.Navigation("User");
+                    b.Navigation("Commento");
+
+                    b.Navigation("UtenteGruppi");
                 });
 
             modelBuilder.Entity("Repo.Ef.Models.FileStorage", b =>
@@ -569,10 +624,14 @@ namespace Repo.Ef.Migrations
             modelBuilder.Entity("Repo.Ef.Models.Gruppo", b =>
                 {
                     b.Navigation("Post");
+
+                    b.Navigation("UtenteGruppi");
                 });
 
             modelBuilder.Entity("Repo.Ef.Models.Post", b =>
                 {
+                    b.Navigation("Commento");
+
                     b.Navigation("UserNavigation");
                 });
 #pragma warning restore 612, 618

@@ -21,6 +21,7 @@ namespace Repo.Ef.Models
         public DateTime? CreationDate { get; set; }
 
         public virtual ICollection<Post> Post { get; set; }
+        public string UserId { get; set; }
 
         public virtual ICollection<Evento> Event { get; set; }
         public virtual ICollection<ApplicationUser> User { get; set; }

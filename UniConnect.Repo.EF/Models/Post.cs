@@ -10,6 +10,7 @@ namespace UniConnect.Repo.EF.Models
         public Post()
         {
             UserNavigation = new HashSet<AspNetUsers>();
+            Commenti = new HashSet<Commento>(); // Aggiungi questa riga
         }
 
         public int PostId { get; set; }
@@ -24,5 +25,6 @@ namespace UniConnect.Repo.EF.Models
         public virtual AspNetUsers User { get; set; }
 
         public virtual ICollection<AspNetUsers> UserNavigation { get; set; }
+        public virtual ICollection<Commento> Commenti { get; set; } // Aggiungi questa riga
     }
 }

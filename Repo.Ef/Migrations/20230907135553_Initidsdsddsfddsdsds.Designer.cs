@@ -10,8 +10,8 @@ using Repo.Ef;
 namespace Repo.Ef.Migrations
 {
     [DbContext(typeof(DbContext))]
-    [Migration("20230906105508_InitialCreate22")]
-    partial class InitialCreate22
+    [Migration("20230907135553_Initidsdsddsfddsdsds")]
+    partial class Initidsdsddsfddsdsds
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,36 @@ namespace Repo.Ef.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.16")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("ApplicationUserGruppo", b =>
+                {
+                    b.Property<int>("GroupId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("GroupId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ApplicationUserGruppo");
+                });
+
+            modelBuilder.Entity("EventoGruppo", b =>
+                {
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GroupId")
+                        .HasColumnType("int");
+
+                    b.HasKey("EventId", "GroupId");
+
+                    b.HasIndex("GroupId");
+
+                    b.ToTable("EventoGruppo");
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -167,6 +197,9 @@ namespace Repo.Ef.Migrations
                     b.Property<string>("Avatar")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("CommentoCommentId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -177,6 +210,12 @@ namespace Repo.Ef.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<int?>("EventoEventId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("FileStorageFileId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -201,6 +240,9 @@ namespace Repo.Ef.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("PostId")
+                        .HasColumnType("int");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -213,6 +255,12 @@ namespace Repo.Ef.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CommentoCommentId");
+
+                    b.HasIndex("EventoEventId");
+
+                    b.HasIndex("FileStorageFileId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -221,7 +269,139 @@ namespace Repo.Ef.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
+                    b.HasIndex("PostId");
+
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("Repo.Ef.Models.Commento", b =>
+                {
+                    b.Property<int>("CommentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("FileId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("Timestamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CommentId");
+
+                    b.HasIndex("FileId");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("Commento");
+                });
+
+            modelBuilder.Entity("Repo.Ef.Models.Evento", b =>
+                {
+                    b.Property<int>("EventId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EventName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("EventId");
+
+                    b.ToTable("Evento");
+                });
+
+            modelBuilder.Entity("Repo.Ef.Models.FileStorage", b =>
+                {
+                    b.Property<int>("FileId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FilePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("FileId");
+
+                    b.ToTable("FileStorage");
+                });
+
+            modelBuilder.Entity("Repo.Ef.Models.Gruppo", b =>
+                {
+                    b.Property<int>("GroupId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GroupName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("GroupId");
+
+                    b.ToTable("Gruppo");
+                });
+
+            modelBuilder.Entity("Repo.Ef.Models.Post", b =>
+                {
+                    b.Property<int>("PostId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("FileId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("GroupId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("Timestamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("PostId");
+
+                    b.HasIndex("FileId");
+
+                    b.HasIndex("GroupId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Post");
                 });
 
             modelBuilder.Entity("Repo.Ef.Pg", b =>
@@ -234,16 +414,44 @@ namespace Repo.Ef.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PgId");
 
-                    b.HasIndex("ApplicationUserId");
-
                     b.ToTable("Pg");
+                });
+
+            modelBuilder.Entity("ApplicationUserGruppo", b =>
+                {
+                    b.HasOne("Repo.Ef.Models.Gruppo", null)
+                        .WithMany()
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Repo.Ef.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("EventoGruppo", b =>
+                {
+                    b.HasOne("Repo.Ef.Models.Evento", null)
+                        .WithMany()
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Repo.Ef.Models.Gruppo", null)
+                        .WithMany()
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -297,16 +505,90 @@ namespace Repo.Ef.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Repo.Ef.Pg", b =>
-                {
-                    b.HasOne("Repo.Ef.ApplicationUser", null)
-                        .WithMany("Pgs")
-                        .HasForeignKey("ApplicationUserId");
-                });
-
             modelBuilder.Entity("Repo.Ef.ApplicationUser", b =>
                 {
-                    b.Navigation("Pgs");
+                    b.HasOne("Repo.Ef.Models.Commento", null)
+                        .WithMany("User")
+                        .HasForeignKey("CommentoCommentId");
+
+                    b.HasOne("Repo.Ef.Models.Evento", null)
+                        .WithMany("User")
+                        .HasForeignKey("EventoEventId");
+
+                    b.HasOne("Repo.Ef.Models.FileStorage", null)
+                        .WithMany("User")
+                        .HasForeignKey("FileStorageFileId");
+
+                    b.HasOne("Repo.Ef.Models.Post", null)
+                        .WithMany("UserNavigation")
+                        .HasForeignKey("PostId");
+                });
+
+            modelBuilder.Entity("Repo.Ef.Models.Commento", b =>
+                {
+                    b.HasOne("Repo.Ef.Models.FileStorage", "File")
+                        .WithMany("Commento")
+                        .HasForeignKey("FileId");
+
+                    b.HasOne("Repo.Ef.Models.Post", "Post")
+                        .WithMany("Commento")
+                        .HasForeignKey("PostId");
+
+                    b.Navigation("File");
+
+                    b.Navigation("Post");
+                });
+
+            modelBuilder.Entity("Repo.Ef.Models.Post", b =>
+                {
+                    b.HasOne("Repo.Ef.Models.FileStorage", "File")
+                        .WithMany("Post")
+                        .HasForeignKey("FileId");
+
+                    b.HasOne("Repo.Ef.Models.Gruppo", "Group")
+                        .WithMany("Post")
+                        .HasForeignKey("GroupId");
+
+                    b.HasOne("Repo.Ef.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("File");
+
+                    b.Navigation("Group");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Repo.Ef.Models.Commento", b =>
+                {
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Repo.Ef.Models.Evento", b =>
+                {
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Repo.Ef.Models.FileStorage", b =>
+                {
+                    b.Navigation("Commento");
+
+                    b.Navigation("Post");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Repo.Ef.Models.Gruppo", b =>
+                {
+                    b.Navigation("Post");
+                });
+
+            modelBuilder.Entity("Repo.Ef.Models.Post", b =>
+                {
+                    b.Navigation("Commento");
+
+                    b.Navigation("UserNavigation");
                 });
 #pragma warning restore 612, 618
         }

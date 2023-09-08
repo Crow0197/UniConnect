@@ -121,7 +121,8 @@ namespace UniConnect.Controllers
                     });
                 }
 
-                var newUser = new ApplicationUser() { Email = user.Email, UserName = user.Email };
+
+                var newUser = new ApplicationUser() { Email = user.Email, UserName = user.Name, Avatar = user.Avatar };
                 var isCreated = await _userManager.CreateAsync(newUser, user.Password);
                 if (isCreated.Succeeded)
                 {
@@ -131,12 +132,11 @@ namespace UniConnect.Controllers
                     List<string> roleNew = new List<string>() { "User" };
                     var jwtToken = GenerateJwtToken(newUser, roleNew);
 
-
-
                     return Ok(new RegistrationResponse()
                     {
                         Result = true,
-                        Token = jwtToken
+                        Token = jwtToken,
+                        User = newUser
                     });
                 }
 

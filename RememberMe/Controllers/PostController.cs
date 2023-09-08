@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Models;
 using Repo.Ef;
 using Repo.Ef.Models;
 using System;
@@ -57,15 +58,16 @@ namespace UniConnect.Controllers
 
         // POST api/Post
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Post post)
+        public async Task<IActionResult> Post([FromBody] PostRequest post)
         {
             if (post == null)
             {
                 return BadRequest(); // Restituisci una risposta HTTP 400 Bad Request se il post è nullo
             }
+            var postDb = _mapper.Map<Post>(post);
 
-            await _repository.AddAsync(post); // Inserisci il nuovo post nel repository in modo asincrono
-            return CreatedAtAction(nameof(Get), new { id = post.PostId }, post); // Restituisci una risposta HTTP 201 Created con il nuovo post
+            await _repository.AddAsync(postDb); // Inserisci il nuovo post nel repository in modo asincrono
+            return Ok();
         }
 
         // PUT api/Post/5

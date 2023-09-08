@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Models;
 using Repo.Ef;
 using Repo.Ef.Models;
 using System;
@@ -57,15 +58,16 @@ namespace UniConnect.Controllers
 
         // POST api/Commento
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Commento commento)
+        public async Task<IActionResult> Post([FromBody] CommentoRequest commento)
         {
             if (commento == null)
             {
                 return BadRequest(); // Restituisci una risposta HTTP 400 Bad Request se il commento è nullo
             }
 
-            await _repository.AddAsync(commento); // Inserisci il nuovo commento nel repository in modo asincrono
-            return CreatedAtAction(nameof(Get), new { id = commento.CommentId }, commento); // Restituisci una risposta HTTP 201 Created con il nuovo commento
+            var commentoDb = _mapper.Map<Commento>(commento);
+            await _repository.AddAsync(commentoDb); // Inserisci il nuovo commento nel repository in modo asincrono
+            return Ok();
         }
 
         // PUT api/Commento/5

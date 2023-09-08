@@ -2,20 +2,17 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 
-namespace UniConnect.Repo.EF.Models
+namespace Models
 {
-    public partial class Commento
-    {
-        public int CommentId { get; set; }
+    public partial class CommentoRequest
+    { 
+     
         public string Content { get; set; }
         public DateTime? Timestamp { get; set; }
         public string UserId { get; set; }
-        public int? FileId { get; set; }
         public int? PostId { get; set; }
-
-        public virtual Post Post { get; set; }
-        public virtual FileStorage File { get; set; }
-        public virtual AspNetUsers User { get; set; }
     }
 }

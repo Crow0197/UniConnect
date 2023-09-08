@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Repo.Ef.Models
 {
@@ -15,6 +16,7 @@ namespace Repo.Ef.Models
         }
 
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int PostId { get; set; }
         public string Content { get; set; }
         public DateTime? Timestamp { get; set; }
