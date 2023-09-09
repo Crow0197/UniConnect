@@ -17,7 +17,6 @@ namespace UniConnect.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly IRepository<FileStorage> _repository;
-        private readonly IRepositoryFile _repositoryFile;
 
 
         public FileUploadController(IRepositoryFile repositoryFile,IConfiguration configuration, IRepository<FileStorage> repository)
