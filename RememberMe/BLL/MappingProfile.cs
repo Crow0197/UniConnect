@@ -27,6 +27,9 @@ namespace UniConnect
             CreateMap<Post, PostRequest>();
             CreateMap<PostRequest, Post>();
 
+            CreateMap<Post, PostRequestFile>();
+            CreateMap<PostRequestFile, Post>();
+            
 
             CreateMap<Gruppo, GruppoRequest>();
             CreateMap<GruppoRequest, Gruppo>();
@@ -42,12 +45,18 @@ namespace UniConnect
             CreateMap<IdentityUser, ApplicationUser>();
             CreateMap<IdentityUser, ApplicationUser>();
 
+
+            CreateMap<FileStorageResponse, FileStorage>();
+            CreateMap<FileStorage, FileStorageResponse>();
+
             CreateMap<Post, PostResponse>()
                 .ForPath(dest => dest.User.UserName, opt => opt.MapFrom(src => src.User.UserName))
                 .ForPath(dest => dest.User.Id, opt => opt.MapFrom(src => src.User.Id))
                 .ForPath(dest => dest.User.Avatar, opt => opt.MapFrom(src => src.User.Avatar))
                 .ForPath(dest => dest.User.Email, opt => opt.MapFrom(src => src.User.Email))
-                .ForMember(dest => dest.NumeroCommenti, opt => opt.MapFrom(src => src.Commento.Count));
+                .ForMember(dest => dest.NumeroCommenti, opt => opt.MapFrom(src => src.Commento.Count))
+                .ForMember(dest => dest.Files, opt => opt.MapFrom(src => src.File));
+
 
 
             CreateMap<Commento, CommentiResponse>()

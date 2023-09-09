@@ -10,7 +10,7 @@ namespace Repo.Ef.Repository
     public interface IRepositoryFile
     {
         Task<int> AddAsync(FileStorage entity);
-
+        Task<IList<FileStorage>> GetByIdPostAsync(int id);
     }
 
 }

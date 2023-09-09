@@ -1,13 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Models;
-using Repo.Ef;
-using Repo.Ef.Models;
-using Repo.Ef.Repository;
 using System;
-using System.IO;
-using System.Text;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using UniConnect.BLL.Service;
 
 namespace UniConnect.Controllers
 {
@@ -15,15 +11,11 @@ namespace UniConnect.Controllers
     [ApiController]
     public class FileUploadController : ControllerBase
     {
-        private readonly IConfiguration _configuration;
-        private readonly IRepository<FileStorage> _repository;
+        private readonly FileUploadService _fileUploadService;
 
-
-        public FileUploadController(IRepositoryFile repositoryFile,IConfiguration configuration, IRepository<FileStorage> repository)
+        public FileUploadController(FileUploadService fileUploadService)
         {
-            _configuration = configuration;
-            _repository = repository;
-            _repositoryFile = repositoryFile;
+            _fileUploadService = fileUploadService;
         }
 
         [HttpPost("upload")]
@@ -33,24 +25,8 @@ namespace UniConnect.Controllers
             {
                 if (!string.IsNullOrEmpty(request.Base64File))
                 {
-                    var base64Data = request.Base64File.Split(',')[1]; // Rimuovi il prefisso "data:image/jpeg;base64,"
-                    var fileBytes = Convert.FromBase64String(base64Data);
-
-                    var fileName = Guid.NewGuid().ToString(); // Genera un nome univoco per il file
-                    var fileExtension = ".png"; // Imposta l'estensione del file (puoi personalizzarla)
-                    var uploadPath =  @"C:\UniconnectData\"; // Imposta il percorso di caricamento dal file appsettings.json
-
-                    var filePath = Path.Combine(uploadPath, fileName + fileExtension);
-
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await stream.WriteAsync(fileBytes, 0, fileBytes.Length); // Salva il file sul disco
-                    }
-
-                    // Ora puoi salvare l'ID del file e altre informazioni nel database
-                    var fileId = await SaveFileToDatabase(fileName, fileExtension, filePath);
-
-                    return Ok(new { fileId }); // Restituisci l'ID del file creato come risposta
+                    var fileId = await _fileUploadService.UploadFileAsync(request.Base64File,"upload");
+                    return Ok(new { fileId });
                 }
 
                 return BadRequest("Il file è vuoto");
@@ -61,18 +37,23 @@ namespace UniConnect.Controllers
             }
         }
 
-        private async Task<int> SaveFileToDatabase(string fileName, string fileExtension, string filePath)
-        {
-            var fileEntity = new FileStorage
-            {
-                FileName = fileName,
-                FilePath = filePath, // Sostituisci con il percorso reale del file
-                FileType = fileExtension
-            };
-            var fileId = await _repositoryFile.AddAsync(fileEntity);
+        //[HttpPost("upload-multiple")]
+        //public async Task<IActionResult> UploadMultipleBase64Files([FromBody] List<string> base64Files)
+        //{
+        //    try
+        //    {
+        //        if (base64Files != null && base64Files.Count > 0)
+        //        {
+        //            var fileIds = await _fileUploadService.UploadMultipleFilesAsync(base64Files);
+        //            return Ok(new { fileIds });
+        //        }
 
-            return fileId; // Sostituisci con l'ID effettivo del file creato
-        }
-
+        //        return BadRequest("La lista dei file è vuota");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, $"Errore interno del server: {ex.Message}");
+        //    }
+        //}
     }
 }

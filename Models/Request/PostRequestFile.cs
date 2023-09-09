@@ -6,12 +6,23 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Models
 {
-    public partial class PostRequest { 
+    public partial class PostRequestFile
+    {
+
         public string Content { get; set; }
         public DateTime? Timestamp { get; set; }
         public string UserId { get; set; }
         public int? GroupId { get; set; }
-        public List<string> FilesBase64{ get; set; }
+        public List<FilesBaseRequest> FilesBase { get; set; }
     }
+
+    public partial class FilesBaseRequest
+    {
+
+        public string FilesBase64 { get; set; }
+        public string FileName { get; set; }
+
+    }
+
 
 }

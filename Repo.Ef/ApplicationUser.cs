@@ -17,6 +17,8 @@ namespace Repo.Ef
         }
 
         public string Avatar  { get; set; }
+        //public string Universita { get; set; }
+
         public virtual ICollection<Gruppo> Group { get; set; }
 
 

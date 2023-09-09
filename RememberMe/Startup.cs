@@ -42,7 +42,8 @@ namespace UniConnect
             services.AddScoped<IRepositoryFile, RepositoryFile>();
             services.AddTransient<PostService>();
             services.AddTransient<GruppoService>();
-            services.AddTransient<CommentoService>();            
+            services.AddTransient<CommentoService>();
+            services.AddTransient<FileUploadService>();
 
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));

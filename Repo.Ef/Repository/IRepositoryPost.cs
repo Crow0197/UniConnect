@@ -10,7 +10,8 @@ namespace Repo.Ef.Repository
     public interface IRepositoryPost
     {
         Task<IEnumerable<Post>> Get();
-        
+        Task<Post> AddAsync(Post entity);
+
 
     }
 

@@ -45,7 +45,7 @@ namespace UniConnect.Controllers
 
         // POST api/Post
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] PostRequest post)
+        public async Task<IActionResult> Post([FromBody] PostRequestFile post)
         {
             if (post == null)
             {

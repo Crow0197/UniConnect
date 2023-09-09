@@ -17,6 +17,9 @@ namespace Models.Response
         public UserDto User { get; set; } // Usiamo il DTO dell'utente invece di ApplicationUser
         public int? FileId { get; set; }
         public int? GroupId { get; set; }
-    }   
+        public virtual ICollection<FileStorageResponse> Files { get; set; }
+
+
+    }
 
 }

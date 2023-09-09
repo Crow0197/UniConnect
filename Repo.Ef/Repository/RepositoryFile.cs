@@ -24,5 +24,13 @@ namespace Repo.Ef.Repository
             await _context.SaveChangesAsync();
             return entity.FileId; // Restituisci l'ID generato automaticamente
         }
+
+        public async Task<IList<FileStorage>> GetByIdPostAsync(int id)
+        {
+            var file = await _context.FileStorage            
+            .Where(g => g.Post.PostId == id)
+            .ToListAsync();
+            return file;
+        }
     }
 }

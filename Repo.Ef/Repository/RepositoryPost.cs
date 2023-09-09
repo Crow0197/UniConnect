@@ -24,11 +24,17 @@ namespace Repo.Ef.Repository
             var gruppi = await _context.Post
              .Include(g => g.User)
              .Include(g => g.Commento)
+             .Include(g => g.File)
              .ToListAsync();
             return gruppi;
-
-
-
         }
+
+        public async Task<Post> AddAsync(Post entity)
+        {
+            _context.Add(entity);
+            await _context.SaveChangesAsync();
+            return entity; // Restituisci l'ID generato automaticamente
+        }
+
     }
 }
