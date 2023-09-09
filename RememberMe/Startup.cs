@@ -20,6 +20,7 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Identity;
 using Repo.Ef.Repository;
+using UniConnect.BLL.Service;
 
 namespace UniConnect
 {
@@ -39,8 +40,9 @@ namespace UniConnect
             services.AddScoped<IRepositoryPost, RepositoryPost>();
             services.AddScoped<IRepositoryCommento, RepositoryCommento>();
             services.AddScoped<IRepositoryFile, RepositoryFile>();
-
-            
+            services.AddTransient<PostService>();
+            services.AddTransient<GruppoService>();
+            services.AddTransient<CommentoService>();            
 
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));

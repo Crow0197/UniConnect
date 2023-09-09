@@ -13,6 +13,7 @@ namespace Repo.Ef.Models
         {
             UserNavigation = new HashSet<ApplicationUser>();
             Commento = new HashSet<Commento>();
+            File = new HashSet<FileStorage>();
         }
 
         [Key]
@@ -24,12 +25,12 @@ namespace Repo.Ef.Models
         public int? FileId { get; set; }
         public int? GroupId { get; set; }
 
-        public virtual FileStorage File { get; set; }
         public virtual Gruppo Group { get; set; }
         public virtual ApplicationUser User { get; set; }
 
         public virtual ICollection<ApplicationUser> UserNavigation { get; set; }
         public virtual ICollection<Commento> Commento { get; set; }
+        public virtual ICollection<FileStorage> File { get; set; }
 
     }
 }

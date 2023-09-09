@@ -10,19 +10,23 @@ namespace Repo.Ef.Models
 {
     public partial class Commento
     {
-       
+
+        public Commento()
+        {
+         
+            File = new HashSet<FileStorage>();
+        }
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CommentId { get; set; }
         public string Content { get; set; }
         public DateTime? Timestamp { get; set; }
-        public string UserId { get; set; }
-        public int? FileId { get; set; }
+        public string UserId { get; set; }    
         public int? PostId { get; set; }
 
         public virtual Post Post { get; set; }
-        public virtual FileStorage File { get; set; }
+        public virtual ICollection<FileStorage> File { get; set; }
         public virtual ApplicationUser User { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace Models
         public DateTime? Timestamp { get; set; }
         public string UserId { get; set; }
         public int? GroupId { get; set; }
-        public string? FileId { get; set; }
+        public int? FileId { get; set; }
 
     }
 }

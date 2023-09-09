@@ -1,18 +1,13 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Models;
 using Models.Response;
-using Repo.Ef;
 using Repo.Ef.Models;
-using Repo.Ef.Repository;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using UniConnect.BLL;
+using UniConnect.BLL.Service;
 
 namespace UniConnect.Controllers
 {
@@ -21,48 +16,31 @@ namespace UniConnect.Controllers
     [ApiController]
     public class PostController : ControllerBase
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly JwtConfig _jwtConfig;
-        private readonly IMapper _mapper;
-        private RoleManager<IdentityRole> _roleManager;
-        private readonly IRepository<Post> _repository;
-        private readonly IRepositoryPost _repositoryPost;
+        private readonly PostService _postService;
 
-        public PostController(UserManager<ApplicationUser> userManager, IOptionsMonitor<JwtConfig> optionsMonitor, IMapper mapper, RoleManager<IdentityRole> roleMgr, IRepository<Post> repository, IRepositoryPost repositoryPost)
+        public PostController(PostService postService)
         {
-            _roleManager = roleMgr;
-            _userManager = userManager;
-            _jwtConfig = optionsMonitor.CurrentValue;
-            _mapper = mapper;
-            _repository = repository;
-            _repositoryPost=repositoryPost;
-    }
+            _postService = postService;
+        }
 
         // GET: api/Post
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var posts = await _repositoryPost.Get(); // Recupera tutti i post dal repository in modo asincrono
-            var postResponses = _mapper.Map<List<PostResponse>>(posts);
-            var sortedPosts = postResponses.OrderByDescending(p => p.Timestamp).ToList();
-
-            return Ok(sortedPosts); // Restituisci una risposta HTTP 200 OK con i post
+            var sortedPosts = await _postService.GetSortedPostsAsync();
+            return Ok(sortedPosts);
         }
 
         // GET api/Post/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var post = await _repository.GetByIdAsync(id); // Recupera il post per l'ID specificato dal repository in modo asincrono
-
+            var post = await _postService.GetPostByIdAsync(id);
             if (post == null)
             {
-                return NotFound(); // Restituisci una risposta HTTP 404 Not Found se il post non esiste
+                return NotFound();
             }
-
-
-
-            return Ok(post); // Restituisci una risposta HTTP 200 OK con il post
+            return Ok(post);
         }
 
         // POST api/Post
@@ -71,11 +49,9 @@ namespace UniConnect.Controllers
         {
             if (post == null)
             {
-                return BadRequest(); // Restituisci una risposta HTTP 400 Bad Request se il post è nullo
+                return BadRequest();
             }
-            var postDb = _mapper.Map<Post>(post);
-
-            await _repository.AddAsync(postDb); // Inserisci il nuovo post nel repository in modo asincrono
+            await _postService.AddPostAsync(post);
             return Ok();
         }
 
@@ -85,36 +61,28 @@ namespace UniConnect.Controllers
         {
             if (updatedPost == null || id != updatedPost.PostId)
             {
-                return BadRequest(); // Restituisci una risposta HTTP 400 Bad Request se il post è nullo o l'ID non corrisponde
+                return BadRequest();
             }
 
-            var existingPost = await _repository.GetByIdAsync(id);
-
-            if (existingPost == null)
+            var success = await _postService.UpdatePostAsync(id, updatedPost);
+            if (!success)
             {
-                return NotFound(); // Restituisci una risposta HTTP 404 Not Found se il post non esiste
+                return NotFound();
             }
 
-            existingPost.Content = updatedPost.Content;
-            existingPost.Timestamp = updatedPost.Timestamp;
-
-            await _repository.UpdateAsync(existingPost); // Aggiorna il post esistente nel repository in modo asincrono
-            return NoContent(); // Restituisci una risposta HTTP 204 No Content
+            return NoContent();
         }
 
         // DELETE api/Post/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var post = await _repository.GetByIdAsync(id);
-
-            if (post == null)
+            var success = await _postService.DeletePostAsync(id);
+            if (!success)
             {
-                return NotFound(); // Restituisci una risposta HTTP 404 Not Found se il post non esiste
+                return NotFound();
             }
-
-            await _repository.DeleteAsync(id); // Elimina il post dal repository in modo asincrono
-            return NoContent(); // Restituisci una risposta HTTP 204 No Content
+            return NoContent();
         }
     }
 }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repo.Ef;
 
 namespace Repo.Ef.Migrations
 {
     [DbContext(typeof(DbContext))]
-    partial class DbContextModelSnapshot : ModelSnapshot
+    [Migration("20230909094710_InitialCreatessfdfdbnbfvdsdsddsdd")]
+    partial class InitialCreatessfdfdbnbfvdsdsddsdd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -271,13 +273,13 @@ namespace Repo.Ef.Migrations
                         {
                             Id = "765d5290-adb4-42f9-8ff8-56c3deb1d960",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a53a018c-3339-4fc3-9719-6a947222193c",
+                            ConcurrencyStamp = "8aa92037-d038-413e-b271-0c7c2f62ee4a",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHNCOhKbZFJTX3++GYit4ijVWLvigvmmhUilbT0qj5PXNfbtStxNpP+T6/GHxgnkrA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJR/whb3rVmra/JW5ZT1Cpa9aFnuic2pWiQA6t+2UrpyWvPGuW/hLgcM/6mj6rTBDw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,

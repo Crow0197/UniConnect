@@ -45,9 +45,9 @@ namespace Repo.Ef
                 new ApplicationUser
                 {
                     Id = "765d5290-adb4-42f9-8ff8-56c3deb1d960",
-                    UserName = "admin@admin",
+                    UserName = "Admin",
                     NormalizedUserName = "ADMIN@ADMIN",
-                    Email = "admin@admin.com",
+                    Email = "admin@admin.it",
                     NormalizedEmail = "ADMIN@ADMIN.COM",
                     EmailConfirmed = true,
                     PasswordHash = hasher.HashPassword(null, "Seven123!"),

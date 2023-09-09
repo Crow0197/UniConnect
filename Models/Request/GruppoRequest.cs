@@ -12,6 +12,7 @@ namespace Models
         public string GroupName { get; set; }
         public string Description { get; set; }
         public string IdUser { get; set; }
+        public int GroupId { get; set; }
 
         public DateTime? CreationDate { get; set; }     
     }

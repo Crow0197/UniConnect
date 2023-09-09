@@ -1,18 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using Models;
 using Models.Response;
-using Repo.Ef;
-using Repo.Ef.Models;
-using Repo.Ef.Repository;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using UniConnect.BLL;
+using UniConnect.BLL.Service;
 
 namespace UniConnect.Controllers
 {
@@ -21,99 +14,73 @@ namespace UniConnect.Controllers
     [ApiController]
     public class CommentoController : ControllerBase
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly JwtConfig _jwtConfig;
-        private readonly IMapper _mapper;
-        private RoleManager<IdentityRole> _roleManager;
-        private readonly IRepository<Commento> _repository;
-        private readonly IRepositoryCommento _repositoryCommento;
+        private readonly CommentoService _commentoService;
 
-
-        public CommentoController(IRepositoryCommento repositoryCommento, UserManager<ApplicationUser> userManager, IOptionsMonitor<JwtConfig> optionsMonitor, IMapper mapper, RoleManager<IdentityRole> roleMgr, IRepository<Commento> repository)
+        public CommentoController(CommentoService commentoService)
         {
-            _roleManager = roleMgr;
-            _userManager = userManager;
-            _jwtConfig = optionsMonitor.CurrentValue;
-            _mapper = mapper;
-            _repository = repository;
-            _repositoryCommento = repositoryCommento;
+            _commentoService = commentoService;
         }
 
-        // GET: api/Commento
         [HttpGet]
         public async Task<IActionResult> Get(int postId)
         {
-            var commenti = await _repositoryCommento.Get(postId); // Recupera tutti i commenti dal repository in modo asincrono
-
-            var commentiResponses = _mapper.Map<List<CommentiResponse>>(commenti);
-            var commentiPosts = commentiResponses.OrderBy(p => p.Timestamp).ToList();
-            return Ok(commenti); // Restituisci una risposta HTTP 200 OK con i commenti
+            var commenti = await _commentoService.GetCommentiAsync(postId);
+            return Ok(commenti);
         }
 
-        // GET api/Commento/5
-        //[HttpGet("{id}")]
-        //public async Task<IActionResult> Get(int id)
-        //{
-        //    var commento = await _repository.GetByIdAsync(id); // Recupera il commento per l'ID specificato dal repository in modo asincrono
-
-        //    if (commento == null)
-        //    {
-        //        return NotFound(); // Restituisci una risposta HTTP 404 Not Found se il commento non esiste
-        //    }
-
-        //    return Ok(commento); // Restituisci una risposta HTTP 200 OK con il commento
-        //}
-
-        // POST api/Commento
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CommentoRequest commento)
         {
             if (commento == null)
             {
-                return BadRequest(); // Restituisci una risposta HTTP 400 Bad Request se il commento è nullo
+                return BadRequest();
             }
 
-            var commentoDb = _mapper.Map<Commento>(commento);
-            await _repository.AddAsync(commentoDb); // Inserisci il nuovo commento nel repository in modo asincrono
-            return Ok();
+            var success = await _commentoService.CreateCommentoAsync(commento);
+
+            if (success)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
-        // PUT api/Commento/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] Commento updatedCommento)
+        public async Task<IActionResult> Put(int id, [FromBody] CommentoRequest updatedCommento)
         {
             if (updatedCommento == null || id != updatedCommento.CommentId)
             {
-                return BadRequest(); // Restituisci una risposta HTTP 400 Bad Request se il commento è nullo o l'ID non corrisponde
+                return BadRequest();
             }
 
-            var existingCommento = await _repository.GetByIdAsync(id);
+            var success = await _commentoService.UpdateCommentoAsync(id, updatedCommento);
 
-            if (existingCommento == null)
+            if (success)
             {
-                return NotFound(); // Restituisci una risposta HTTP 404 Not Found se il commento non esiste
+                return NoContent();
             }
-
-            existingCommento.Content = updatedCommento.Content;
-            existingCommento.Timestamp = updatedCommento.Timestamp;
-
-            await _repository.UpdateAsync(existingCommento); // Aggiorna il commento esistente nel repository in modo asincrono
-            return NoContent(); // Restituisci una risposta HTTP 204 No Content
+            else
+            {
+                return NotFound();
+            }
         }
 
-        // DELETE api/Commento/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var commento = await _repository.GetByIdAsync(id);
+            var success = await _commentoService.DeleteCommentoAsync(id);
 
-            if (commento == null)
+            if (success)
             {
-                return NotFound(); // Restituisci una risposta HTTP 404 Not Found se il commento non esiste
+                return NoContent();
             }
-
-            await _repository.DeleteAsync(id); // Elimina il commento dal repository in modo asincrono
-            return NoContent(); // Restituisci una risposta HTTP 204 No Content
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }
