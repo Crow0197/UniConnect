@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Models;
+using Models.Response;
 using Repo.Ef;
 using Repo.Ef.Models;
+using Repo.Ef.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,22 +26,27 @@ namespace UniConnect.Controllers
         private readonly IMapper _mapper;
         private RoleManager<IdentityRole> _roleManager;
         private readonly IRepository<Post> _repository;
+        private readonly IRepositoryPost _repositoryPost;
 
-        public PostController(UserManager<ApplicationUser> userManager, IOptionsMonitor<JwtConfig> optionsMonitor, IMapper mapper, RoleManager<IdentityRole> roleMgr, IRepository<Post> repository)
+        public PostController(UserManager<ApplicationUser> userManager, IOptionsMonitor<JwtConfig> optionsMonitor, IMapper mapper, RoleManager<IdentityRole> roleMgr, IRepository<Post> repository, IRepositoryPost repositoryPost)
         {
             _roleManager = roleMgr;
             _userManager = userManager;
             _jwtConfig = optionsMonitor.CurrentValue;
             _mapper = mapper;
             _repository = repository;
-        }
+            _repositoryPost=repositoryPost;
+    }
 
         // GET: api/Post
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var posts = await _repository.GetAllAsync(); // Recupera tutti i post dal repository in modo asincrono
-            return Ok(posts); // Restituisci una risposta HTTP 200 OK con i post
+            var posts = await _repositoryPost.Get(); // Recupera tutti i post dal repository in modo asincrono
+            var postResponses = _mapper.Map<List<PostResponse>>(posts);
+            var sortedPosts = postResponses.OrderByDescending(p => p.Timestamp).ToList();
+
+            return Ok(sortedPosts); // Restituisci una risposta HTTP 200 OK con i post
         }
 
         // GET api/Post/5
@@ -52,6 +59,8 @@ namespace UniConnect.Controllers
             {
                 return NotFound(); // Restituisci una risposta HTTP 404 Not Found se il post non esiste
             }
+
+
 
             return Ok(post); // Restituisci una risposta HTTP 200 OK con il post
         }

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Repo.Ef
+namespace Repo.Ef.Repository
 {
     public class RepositoryGruppi : IRepositoryGruppi
     {

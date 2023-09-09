@@ -21,7 +21,7 @@ namespace UniConnect
             CreateMap<AccountRequest, ApplicationUser>();
             CreateMap<ApplicationUser, AccountRequest>();
             CreateMap<Commento, CommentoRequest>();
-            CreateMap< CommentoRequest, Commento>();
+            CreateMap<CommentoRequest, Commento>();
 
 
             CreateMap<Post, PostRequest>();
@@ -35,12 +35,26 @@ namespace UniConnect
             CreateMap<Gruppo, GruppoResponse>();
             CreateMap<GruppoResponse, Gruppo>();
 
-            
+
             CreateMap<AccountRequest, ApplicationUser>();
 
             CreateMap<ApplicationUser, IdentityUser>();
-            CreateMap<IdentityUser, ApplicationUser>();          
             CreateMap<IdentityUser, ApplicationUser>();
+            CreateMap<IdentityUser, ApplicationUser>();
+
+            CreateMap<Post, PostResponse>()
+                .ForPath(dest => dest.User.UserName, opt => opt.MapFrom(src => src.User.UserName))
+                .ForPath(dest => dest.User.Id, opt => opt.MapFrom(src => src.User.Id))
+                .ForPath(dest => dest.User.Avatar, opt => opt.MapFrom(src => src.User.Avatar))
+                .ForPath(dest => dest.User.Email, opt => opt.MapFrom(src => src.User.Email))
+                .ForMember(dest => dest.NumeroCommenti, opt => opt.MapFrom(src => src.Commento.Count));
+
+
+            CreateMap<Commento, CommentiResponse>()
+                .ForPath(dest => dest.User.UserName, opt => opt.MapFrom(src => src.User.UserName))
+                .ForPath(dest => dest.User.Id, opt => opt.MapFrom(src => src.User.Id))
+                .ForPath(dest => dest.User.Avatar, opt => opt.MapFrom(src => src.User.Avatar))
+                .ForPath(dest => dest.User.Email, opt => opt.MapFrom(src => src.User.Email));
         }
     }
 }

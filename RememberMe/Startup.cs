@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Identity;
+using Repo.Ef.Repository;
 
 namespace UniConnect
 {
@@ -35,6 +36,12 @@ namespace UniConnect
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IRepositoryGruppi, RepositoryGruppi>();
+            services.AddScoped<IRepositoryPost, RepositoryPost>();
+            services.AddScoped<IRepositoryCommento, RepositoryCommento>();
+            services.AddScoped<IRepositoryFile, RepositoryFile>();
+
+            
+
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddDbContext<Repo.Ef.DbContext>(options =>

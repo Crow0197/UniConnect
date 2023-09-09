@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Models;
+using Models.Response;
 using Repo.Ef;
 using Repo.Ef.Models;
+using Repo.Ef.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,37 +26,43 @@ namespace UniConnect.Controllers
         private readonly IMapper _mapper;
         private RoleManager<IdentityRole> _roleManager;
         private readonly IRepository<Commento> _repository;
+        private readonly IRepositoryCommento _repositoryCommento;
 
-        public CommentoController(UserManager<ApplicationUser> userManager, IOptionsMonitor<JwtConfig> optionsMonitor, IMapper mapper, RoleManager<IdentityRole> roleMgr, IRepository<Commento> repository)
+
+        public CommentoController(IRepositoryCommento repositoryCommento, UserManager<ApplicationUser> userManager, IOptionsMonitor<JwtConfig> optionsMonitor, IMapper mapper, RoleManager<IdentityRole> roleMgr, IRepository<Commento> repository)
         {
             _roleManager = roleMgr;
             _userManager = userManager;
             _jwtConfig = optionsMonitor.CurrentValue;
             _mapper = mapper;
             _repository = repository;
+            _repositoryCommento = repositoryCommento;
         }
 
         // GET: api/Commento
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(int postId)
         {
-            var commenti = await _repository.GetAllAsync(); // Recupera tutti i commenti dal repository in modo asincrono
+            var commenti = await _repositoryCommento.Get(postId); // Recupera tutti i commenti dal repository in modo asincrono
+
+            var commentiResponses = _mapper.Map<List<CommentiResponse>>(commenti);
+            var commentiPosts = commentiResponses.OrderBy(p => p.Timestamp).ToList();
             return Ok(commenti); // Restituisci una risposta HTTP 200 OK con i commenti
         }
 
         // GET api/Commento/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
-        {
-            var commento = await _repository.GetByIdAsync(id); // Recupera il commento per l'ID specificato dal repository in modo asincrono
+        //[HttpGet("{id}")]
+        //public async Task<IActionResult> Get(int id)
+        //{
+        //    var commento = await _repository.GetByIdAsync(id); // Recupera il commento per l'ID specificato dal repository in modo asincrono
 
-            if (commento == null)
-            {
-                return NotFound(); // Restituisci una risposta HTTP 404 Not Found se il commento non esiste
-            }
+        //    if (commento == null)
+        //    {
+        //        return NotFound(); // Restituisci una risposta HTTP 404 Not Found se il commento non esiste
+        //    }
 
-            return Ok(commento); // Restituisci una risposta HTTP 200 OK con il commento
-        }
+        //    return Ok(commento); // Restituisci una risposta HTTP 200 OK con il commento
+        //}
 
         // POST api/Commento
         [HttpPost]
