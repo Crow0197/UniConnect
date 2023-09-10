@@ -28,17 +28,15 @@ namespace UniConnect.Controllers
         private readonly JwtConfig _jwtConfig;
         private readonly IMapper _mapper;
         private RoleManager<IdentityRole> _roleManager;
-        private readonly IRepository<Pg> _repository;
         private readonly FileUploadService _fileUploadService;
 
 
-        public AuthManagementController(UserManager<ApplicationUser> userManager, IOptionsMonitor<JwtConfig> optionsMonitor, IMapper mapper, RoleManager<IdentityRole> roleMgr, IRepository<Pg> repository, FileUploadService fileUploadService)
+        public AuthManagementController(UserManager<ApplicationUser> userManager, IOptionsMonitor<JwtConfig> optionsMonitor, IMapper mapper, RoleManager<IdentityRole> roleMgr, FileUploadService fileUploadService)
         {
             _roleManager = roleMgr;
             _userManager = userManager;
             _jwtConfig = optionsMonitor.CurrentValue;
             _mapper = mapper;
-            _repository = repository;
             _fileUploadService = fileUploadService;
 
         }
