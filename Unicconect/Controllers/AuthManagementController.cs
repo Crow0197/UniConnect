@@ -16,6 +16,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using UniConnect.BLL.Service;
 
 namespace UniConnect.Controllers
 {
@@ -27,14 +28,19 @@ namespace UniConnect.Controllers
         private readonly JwtConfig _jwtConfig;
         private readonly IMapper _mapper;
         private RoleManager<IdentityRole> _roleManager;
+        private readonly IRepository<Pg> _repository;
+        private readonly FileUploadService _fileUploadService;
 
 
-        public AuthManagementController(UserManager<ApplicationUser> userManager, IOptionsMonitor<JwtConfig> optionsMonitor, IMapper mapper, RoleManager<IdentityRole> roleMgr)
+        public AuthManagementController(UserManager<ApplicationUser> userManager, IOptionsMonitor<JwtConfig> optionsMonitor, IMapper mapper, RoleManager<IdentityRole> roleMgr, IRepository<Pg> repository, FileUploadService fileUploadService)
         {
             _roleManager = roleMgr;
             _userManager = userManager;
             _jwtConfig = optionsMonitor.CurrentValue;
             _mapper = mapper;
+            _repository = repository;
+            _fileUploadService = fileUploadService;
+
         }
 
 
@@ -122,6 +128,7 @@ namespace UniConnect.Controllers
 
                 var newUser = new ApplicationUser() { Email = user.Email, UserName = user.Name, Avatar = user.Avatar };
                 var isCreated = await _userManager.CreateAsync(newUser, user.Password);
+
                 if (isCreated.Succeeded)
                 {
 

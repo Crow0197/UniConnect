@@ -32,7 +32,6 @@ namespace Repo.Ef
         public virtual DbSet<Evento> Evento { get; set; }
         public virtual DbSet<FileStorage> FileStorage { get; set; }
         public virtual DbSet<Gruppo> Gruppo { get; set; }
-        public virtual DbSet<Pg> Pg { get; set; }
         public virtual DbSet<Post> Post { get; set; }
 
 
