@@ -36,6 +36,9 @@ namespace UniConnect
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddScoped<IRepositoryEventi, RepositoryEventi>();
+
             services.AddScoped<IRepositoryGruppi, RepositoryGruppi>();
             services.AddScoped<IRepositoryPost, RepositoryPost>();
             services.AddScoped<IRepositoryCommento, RepositoryCommento>();
@@ -44,7 +47,7 @@ namespace UniConnect
             services.AddTransient<GruppoService>();
             services.AddTransient<CommentoService>();
             services.AddTransient<FileUploadService>();
-
+            services.AddTransient<EventoService>();
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddDbContext<Repo.Ef.DbContext>(options =>

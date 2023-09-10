@@ -37,22 +37,17 @@ namespace Repo.Ef
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-
-            var hasher = new PasswordHasher<ApplicationUser>();
-            modelBuilder.Entity<ApplicationUser>().HasData(
-                new ApplicationUser
+            base.OnModelCreating(modelBuilder);                      
+            var roleId = "765d5290-adb4-42f9-8ff8-56c3deb1d961"; // Un ID univoco per il ruolo User
+            modelBuilder.Entity<IdentityRole>().HasData(
+                new IdentityRole
                 {
-                    Id = "765d5290-adb4-42f9-8ff8-56c3deb1d960",
-                    UserName = "Admin",
-                    NormalizedUserName = "ADMIN@ADMIN",
-                    Email = "admin@admin.it",
-                    NormalizedEmail = "ADMIN@ADMIN.COM",
-                    EmailConfirmed = true,
-                    PasswordHash = hasher.HashPassword(null, "Seven123!"),
-                    SecurityStamp = string.Empty
+                    Id = roleId,
+                    Name = "User",
+                    NormalizedName = "USER"
                 }
             );
+
         }
 
 

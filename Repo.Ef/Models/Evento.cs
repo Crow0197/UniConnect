@@ -25,6 +25,8 @@ namespace Repo.Ef.Models
         public string CreatorId { get; set; }       
         public virtual ICollection<Gruppo> Group { get; set; }
         public virtual ICollection<ApplicationUser> User { get; set; }
+        public string UserId { get; set; }
+
 
     }
 }

@@ -39,6 +39,15 @@ namespace UniConnect
             CreateMap<GruppoResponse, Gruppo>();
 
 
+            CreateMap<Evento, EventoRequest>();
+            CreateMap<EventoRequest, Evento>();
+
+
+            CreateMap<Evento, EventoResponse>();
+            CreateMap<EventoResponse, Evento>();
+
+
+
             CreateMap<AccountRequest, ApplicationUser>();
 
             CreateMap<ApplicationUser, IdentityUser>();

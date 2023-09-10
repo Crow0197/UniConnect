@@ -14,13 +14,17 @@ namespace Repo.Ef
         public ApplicationUser()
         {
             Group = new HashSet<Gruppo>();
+            Eventi = new HashSet<Evento>();
+
         }
 
         public string Avatar  { get; set; }
-        //public string Universita { get; set; }
+        public string Universita { get; set; }
 
         public virtual ICollection<Gruppo> Group { get; set; }
+        public virtual ICollection<Evento> Eventi { get; set; }
 
+    
 
     }
 }
